@@ -1,0 +1,19 @@
+<project name="abacaphiliac/events-capable" default="develop" basedir=".">
+    
+    <target name="develop">
+        <phingcall target="tests"/>
+    </target>
+    
+    <target name="tests">
+        <phingcall target="unit-tests"/>
+    </target>
+    
+    <target name="unit-tests">
+        <exec command="./vendor/bin/phpunit --coverage-text=php://stdout"
+            passthru="true"
+            output="/dev/stdout"
+            error="/dev/stdout"
+            checkreturn="true"/>
+    </target>
+    
+</project>
