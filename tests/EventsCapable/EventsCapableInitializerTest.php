@@ -24,10 +24,10 @@ class EventsCapableInitializerTest extends \PHPUnit_Framework_TestCase
     {
         $events = new EventManager();
         
-        $instance = $this->getMock(EventsCapableInterface::class);
+        $instance = $this->getMock('\Zend\EventManager\EventsCapableInterface');
         $instance->method('getEventManager')->willReturn($events);
         
-        $listener = $this->getMock(ListenerAggregateInterface::class);
+        $listener = $this->getMock('\Zend\EventManager\ListenerAggregateInterface');
         $listener->expects($this->once())->method('attach')->with($events);
         
         $serviceLocator = new ServiceManager();
@@ -49,7 +49,7 @@ class EventsCapableInitializerTest extends \PHPUnit_Framework_TestCase
     {
         $events = new EventManager();
         
-        $instance = $this->getMock(EventsCapableInterface::class);
+        $instance = $this->getMock('\Zend\EventManager\EventsCapableInterface');
         $instance->method('getEventManager')->willReturn($events);
         
         $actual = $this->sut->initialize($instance, new ServiceManager());

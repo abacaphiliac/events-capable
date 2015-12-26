@@ -15,7 +15,7 @@
         "zendframework/zend-stdlib": "^2"
     },
     "require-dev": {
-        "phpunit/phpunit": "^5",
+        "phpunit/phpunit": "^5|^4.8",
         "phing/phing": "^2"
     },
     "autoload": {
