@@ -5,8 +5,8 @@
     "license": "MIT",
     "extra": {
         "branch-alias": {
-            "dev-master": "0.0-dev",
-            "dev-develop": "0.1-dev"
+            "dev-master": "0.1-dev",
+            "dev-develop": "0.2-dev"
         }
     },
     "require": {
@@ -15,7 +15,7 @@
         "zendframework/zend-stdlib": "^2"
     },
     "require-dev": {
-        "phpunit/phpunit": "^5",
+        "phpunit/phpunit": "^5|^4.8",
         "phing/phing": "^2"
     },
     "autoload": {

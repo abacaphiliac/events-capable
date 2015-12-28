@@ -19,7 +19,7 @@ class EventsCapableOptionsTest extends \PHPUnit_Framework_TestCase
     
     public function testGetListeners()
     {
-        $eventsCapable = $this->getMock(EventsCapableInterface::class);
+        $eventsCapable = $this->getMock('\Zend\EventManager\EventsCapableInterface');
         
         $this->sut->setFromArray(array(
             'eventsCapable' => array(

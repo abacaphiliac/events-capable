@@ -1,3 +1,5 @@
+[![Build Status](https://travis-ci.org/abacaphiliac/events-capable.svg)](https://travis-ci.org/abacaphiliac/events-capable)
+
 # abacaphiliac/events-capable
 Tired of writing backwards-compatible logic in all of your factory code to wire up listeners? Is your service
 implementation registered with Zend's service manager? Then this package might be right for you!
