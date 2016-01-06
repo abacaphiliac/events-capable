@@ -2,6 +2,7 @@
 
 namespace abacaphiliac\EventsCapable;
 
+use abacaphiliac\EventsCapable\Exception\UnexpectedValueException;
 use Zend\EventManager\EventsCapableInterface;
 use Zend\EventManager\ListenerAggregateInterface;
 use Zend\ServiceManager\AbstractPluginManager;
@@ -47,11 +48,36 @@ class EventsCapableInitializer implements InitializerInterface
         
         $listeners = $options->getListeners($instance);
         
-        foreach ($listeners as $listenerName) {
-            $listener = $serviceLocator->get($listenerName);
+        foreach ($listeners as $listener) {
+            if (!$listener instanceof ListenerAggregateInterface) {
+                $listener = $this->getListener($serviceLocator, $listener);
+            }
+            
             if ($listener instanceof ListenerAggregateInterface) {
                 $listener->attach($events);
             }
+            
+            // TODO Get listener spec from config (e.g. event-name, callable, and priority.
         }
+    }
+
+    /**
+     * @param ServiceLocatorInterface $serviceLocator
+     * @param mixed $listenerName
+     * @return object
+     */
+    private function getListener(ServiceLocatorInterface $serviceLocator, $listenerName)
+    {
+        if ($serviceLocator->has($listenerName)) {
+            return $serviceLocator->get($listenerName);
+        }
+        
+        // TODO Check for constructor params and throw an exception guiding the dev to register with service container.
+        
+        if (class_exists($listenerName)) {
+            return new $listenerName;
+        }
+        
+        throw new UnexpectedValueException('Listener must be registered in service container, or an invokable class.');
     }
 }

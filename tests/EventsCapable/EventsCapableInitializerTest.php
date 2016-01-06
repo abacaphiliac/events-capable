@@ -4,9 +4,6 @@ namespace abacaphiliacTest\EventsCapable;
 
 use abacaphiliac\EventsCapable\EventsCapableInitializer;
 use Zend\EventManager\EventManager;
-use Zend\EventManager\EventsCapableInterface;
-use Zend\EventManager\ListenerAggregateInterface;
-use Zend\Hydrator\HydratorPluginManager;
 use Zend\ServiceManager\ServiceManager;
 use Zend\Validator\ValidatorPluginManager;
 
@@ -92,5 +89,79 @@ class EventsCapableInitializerTest extends \PHPUnit_Framework_TestCase
         $validators->setServiceLocator($services);
 
         $this->sut->initialize($instance, $validators);
+    }
+    
+    public function testUseInstantiatedListenerProvidedByConfig()
+    {
+        $events = new EventManager();
+
+        $instance = $this->getMock('\Zend\EventManager\EventsCapableInterface');
+        $instance->method('getEventManager')->willReturn($events);
+
+        $listener = $this->getMock('\Zend\EventManager\ListenerAggregateInterface');
+        $listener->expects($this->once())->method('attach')->with($events);
+
+        $services = new ServiceManager();
+        $services->setService('config', array(
+            'abacaphiliac/events-capable' => array(
+                'eventsCapable' => array(
+                    get_class($instance) => array(
+                        $listener,
+                    ),
+                ),
+            ),
+        ));
+
+        $this->sut->initialize($instance, $services);
+    }
+    
+    public function testInstantiateListener()
+    {
+        $events = new EventManager();
+
+        $instance = $this->getMock('\Zend\EventManager\EventsCapableInterface');
+        $instance->method('getEventManager')->willReturn($events);
+
+        $listener = $this->getMock('\Zend\EventManager\ListenerAggregateInterface');
+
+        $services = new ServiceManager();
+        $services->setService('config', array(
+            'abacaphiliac/events-capable' => array(
+                'eventsCapable' => array(
+                    get_class($instance) => array(
+                        get_class($listener),
+                    ),
+                ),
+            ),
+        ));
+
+        $actual = $this->sut->initialize($instance, $services);
+        
+        // Since we're instantiating a new instance of the mock, I don't have anything to assert :( 
+        $this->assertNull($actual);
+    }
+
+    /**
+     * @expectedException \abacaphiliac\EventsCapable\Exception\UnexpectedValueException
+     */
+    public function testUnexpectedListenerType()
+    {
+        $events = new EventManager();
+
+        $instance = $this->getMock('\Zend\EventManager\EventsCapableInterface');
+        $instance->method('getEventManager')->willReturn($events);
+
+        $services = new ServiceManager();
+        $services->setService('config', array(
+            'abacaphiliac/events-capable' => array(
+                'eventsCapable' => array(
+                    get_class($instance) => array(
+                        'ClassNameThatDoesNotExist',
+                    ),
+                ),
+            ),
+        ));
+
+        $this->sut->initialize($instance, $services);
     }
 }
