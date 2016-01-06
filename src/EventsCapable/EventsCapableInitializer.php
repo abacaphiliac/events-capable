@@ -49,7 +49,7 @@ class EventsCapableInitializer implements InitializerInterface
         $listeners = $options->getListeners($instance);
         
         foreach ($listeners as $listener) {
-            if (!$listener instanceof ListenerAggregateInterface) {
+            if (is_string($listener)) {
                 $listener = $this->getListener($serviceLocator, $listener);
             }
             
