@@ -4,6 +4,7 @@ namespace abacaphiliac\EventsCapable;
 
 use Zend\EventManager\EventsCapableInterface;
 use Zend\EventManager\ListenerAggregateInterface;
+use Zend\ServiceManager\AbstractPluginManager;
 use Zend\ServiceManager\InitializerInterface;
 use Zend\ServiceManager\ServiceLocatorInterface;
 
@@ -20,6 +21,10 @@ class EventsCapableInitializer implements InitializerInterface
     {
         if (!$instance instanceof EventsCapableInterface) {
             return;
+        }
+        
+        if ($serviceLocator instanceof AbstractPluginManager) {
+            $serviceLocator = $serviceLocator->getServiceLocator();
         }
         
         $events = $instance->getEventManager();
