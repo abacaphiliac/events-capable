@@ -16,7 +16,8 @@
     },
     "require-dev": {
         "phpunit/phpunit": "^5|^4.8",
-        "phing/phing": "^2"
+        "phing/phing": "^2",
+        "zendframework/zend-validator": "^2"
     },
     "autoload": {
         "psr-4": {
