@@ -17,7 +17,9 @@
     "require-dev": {
         "phpunit/phpunit": "^5|^4.8",
         "phing/phing": "^2",
-        "zendframework/zend-validator": "^2"
+        "zendframework/zend-validator": "^2",
+        "squizlabs/php_codesniffer": "^2.5",
+        "jakub-onderka/php-parallel-lint": "^0.9.2"
     },
     "autoload": {
         "psr-4": {

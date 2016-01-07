@@ -1,7 +1,30 @@
 <project name="abacaphiliac/events-capable" default="develop" basedir=".">
     
     <target name="develop">
+        <phingcall target="lint"/>
         <phingcall target="tests"/>
+    </target>
+
+    <target name="lint">
+        <phingcall target="php-lint"/>
+        <phingcall target="phpcs"/>
+    </target>
+
+    <target name="php-lint">
+        <exec command="vendor/bin/parallel-lint src tests"
+              passthru="true"
+              output="/dev/stdout"
+              error="/dev/stdout"
+              checkreturn="true"/>
+    </target>
+
+    <target name="phpcs">
+        <exec command="vendor/bin/phpcs --standard=PSR2 --extensions=php --error-severity=1 --warning-severity=8 src tests"
+              passthru="true"
+              output="/dev/stdout"
+              error="/dev/stdout"
+              checkreturn="true"/>
+        <echo msg="Congratulations! No violations were found."/>
     </target>
     
     <target name="tests">
