@@ -4,6 +4,7 @@ namespace abacaphiliacTest\EventsCapable;
 
 use abacaphiliac\EventsCapable\EventsCapableInitializer;
 use Zend\EventManager\EventManager;
+use Zend\ServiceManager\Exception\ServiceNotCreatedException;
 use Zend\ServiceManager\ServiceManager;
 use Zend\Validator\ValidatorPluginManager;
 
@@ -142,7 +143,7 @@ class EventsCapableInitializerTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @expectedException \abacaphiliac\EventsCapable\Exception\UnexpectedValueException
+     * @expectedException \abacaphiliac\EventsCapable\Exception\ListenerNotCreatedException
      */
     public function testUnexpectedListenerType()
     {
@@ -157,6 +158,33 @@ class EventsCapableInitializerTest extends \PHPUnit_Framework_TestCase
                 'eventsCapable' => array(
                     get_class($instance) => array(
                         'ClassNameThatDoesNotExist',
+                    ),
+                ),
+            ),
+        ));
+
+        $this->sut->initialize($instance, $services);
+    }
+
+    /**
+     * @expectedException \abacaphiliac\EventsCapable\Exception\ListenerNotCreatedException
+     */
+    public function testServiceManagerFailsToCreateListener()
+    {
+        $events = new EventManager();
+
+        $instance = $this->getMock('\Zend\EventManager\EventsCapableInterface');
+        $instance->method('getEventManager')->willReturn($events);
+
+        $services = new ServiceManager();
+        $services->setFactory('MyListener', function () {
+            throw new ServiceNotCreatedException();
+        });
+        $services->setService('config', array(
+            'abacaphiliac/events-capable' => array(
+                'eventsCapable' => array(
+                    get_class($instance) => array(
+                        'MyListener',
                     ),
                 ),
             ),
