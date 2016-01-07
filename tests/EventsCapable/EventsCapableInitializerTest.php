@@ -138,7 +138,7 @@ class EventsCapableInitializerTest extends \PHPUnit_Framework_TestCase
 
         $actual = $this->sut->initialize($instance, $services);
         
-        // Since we're instantiating a new instance of the mock, I don't have anything to assert :( 
+        // Since we're instantiating a new instance of the mock, I don't have anything to assert :(
         $this->assertNull($actual);
     }
 
