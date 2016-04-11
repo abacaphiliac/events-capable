@@ -1,4 +1,6 @@
-[![Build Status](https://travis-ci.org/abacaphiliac/events-capable.svg)](https://travis-ci.org/abacaphiliac/events-capable)
+[![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/abacaphiliac/events-capable/badges/quality-score.png?b=develop)](https://scrutinizer-ci.com/g/abacaphiliac/events-capable/?branch=develop)
+[![Code Coverage](https://scrutinizer-ci.com/g/abacaphiliac/events-capable/badges/coverage.png?b=develop)](https://scrutinizer-ci.com/g/abacaphiliac/events-capable/?branch=develop)
+[![Build Status](https://travis-ci.org/abacaphiliac/events-capable.svg?branch=develop)](https://travis-ci.org/abacaphiliac/events-capable)
 
 # abacaphiliac/events-capable
 Tired of writing backwards-compatible logic in all of your factory code to wire up listeners? Is your service
@@ -15,7 +17,7 @@ to attach to the service's event manager.
 Install the latest version with
 
 ```bash
-$ composer require abacaphiliac/events-capable
+composer require abacaphiliac/events-capable
 ```
 
 ## Basic Usage (Configuration)
@@ -55,3 +57,15 @@ return [
     ],
 ];
 ```
+
+## Contributing
+```
+composer install && vendor/bin/phing
+```
+
+This library attempts to comply with [PSR-1][], [PSR-2][], and [PSR-4][]. If
+you notice compliance oversights, please send a patch via pull request.
+
+[PSR-1]: https://github.com/php-fig/fig-standards/blob/master/accepted/PSR-1-basic-coding-standard.md
+[PSR-2]: https://github.com/php-fig/fig-standards/blob/master/accepted/PSR-2-coding-style-guide.md
+[PSR-4]: https://github.com/php-fig/fig-standards/blob/master/accepted/PSR-4-autoloader.md
